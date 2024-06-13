@@ -7,12 +7,12 @@ public class Sound : MonoBehaviour
     public float playTime = 5.0f;   // Time in seconds to start playing the audio
     public float stopTime = 15.0f;  // Time in seconds to stop the audio
     public float fadeDuration = 2.0f; // Duration of the fade-in and fade-out
+    public AnimationCurve fadeInAnimation;
+    public AnimationCurve fadeOutAnimation;
 
     private AudioSource audioSource;
-    private float timer = 0f;
-    private bool isFadingIn = false;
-    private bool isFadingOut = false;
-    private float targetVolume;
+    private float startTime = 0f;
+    private float originalVolume;
 
     void Start()
     {
@@ -23,74 +23,26 @@ public class Sound : MonoBehaviour
             return;
         }
 
+        originalVolume = audioSource.volume;
         audioSource.volume = 0;
-        targetVolume = audioSource.volume;
+        startTime = Time.time;
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-
-        if (timer >= playTime && !audioSource.isPlaying)
+        float newVolume = 0f;
+        if (Time.time >= startTime + playTime && Time.time <= startTime + stopTime)
         {
-            StartFadeIn();
+            newVolume = fadeInAnimation.Evaluate((Time.time - playTime) / fadeDuration);
+            newVolume *= originalVolume;
         }
-
-        if (timer >= stopTime && audioSource.isPlaying)
+        else if (Time.time >= startTime + stopTime && Time.time <= startTime + stopTime + fadeDuration)
         {
-            StartFadeOut();
+            newVolume = fadeOutAnimation.Evaluate((Time.time - stopTime) / fadeDuration);
+            newVolume *= originalVolume;
         }
-
-        if (isFadingIn)
-        {
-            FadeIn();
-        }
-
-        if (isFadingOut)
-        {
-            FadeOut();
-        }
+        audioSource.volume = newVolume;
     }
 
-    void StartFadeIn()
-    {
-        isFadingIn = true;
-        isFadingOut = false;
-        audioSource.Play();
-    }
 
-    void StartFadeOut()
-    {
-        isFadingIn = false;
-        isFadingOut = true;
-    }
-
-    void FadeIn()
-    {
-        if (audioSource.volume < targetVolume)
-        {
-            audioSource.volume += Time.deltaTime / fadeDuration;
-
-            if (audioSource.volume >= targetVolume)
-            {
-                audioSource.volume = targetVolume;
-                isFadingIn = false;
-            }
-        }
-    }
-
-    void FadeOut()
-    {
-        if (audioSource.volume > 0)
-        {
-            audioSource.volume -= Time.deltaTime / fadeDuration;
-
-            if (audioSource.volume <= 0)
-            {
-                audioSource.volume = 0;
-                audioSource.Stop();
-                isFadingOut = false;
-            }
-        }
-    }
 }
