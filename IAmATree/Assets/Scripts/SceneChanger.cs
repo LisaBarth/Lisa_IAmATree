@@ -10,27 +10,25 @@ public class SceneChanger : MonoBehaviour
     private float fadeSpeed = 0.25f; // Speed of the fade effect
     private bool isFading = false; // Flag to check if currently fading
 
+    public float changeSceneDelay = 10.0f; // Time in seconds before the scene changes automatically
+    public string sceneName = "VRScene3"; // Name of the scene to switch to
+
     void Start()
     {
         fadeImage.color = new Color(0f, 0f, 0f, 0f); // Start with fully transparent
+        StartCoroutine(AutoChangeSceneAfterDelay());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // temp key controls
-
-        if(Input.GetKeyDown(KeyCode.F))
+        // Temp key controls for manual scene switch and fade-out
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.G))
         {
             StartCoroutine(FadeOut());
         }
 
-        if(Input.GetKeyDown(KeyCode.G))
-        {
-            StartCoroutine(FadeOut());
-        }
-
-        if(Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             // Switch scene
             SceneSwitcher();
@@ -39,7 +37,7 @@ public class SceneChanger : MonoBehaviour
 
     void SceneSwitcher()
     {
-        SceneManager.LoadScene("VRScene3");
+        SceneManager.LoadScene(sceneName);
     }
 
     IEnumerator FadeOut()
@@ -55,7 +53,13 @@ public class SceneChanger : MonoBehaviour
             yield return null;
         }
 
+        SceneSwitcher(); // Change scene after fade-out
         isFading = false;
+    }
 
+    IEnumerator AutoChangeSceneAfterDelay()
+    {
+        yield return new WaitForSeconds(changeSceneDelay);
+        StartCoroutine(FadeOut());
     }
 }

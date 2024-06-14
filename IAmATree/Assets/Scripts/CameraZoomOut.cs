@@ -4,38 +4,44 @@ using UnityEngine;
 
 public class CameraZoomOut : MonoBehaviour
 {
-
     public GameObject xrOrigin;
-    public GameObject handVisualizer;
-    public GameObject leftHand;
-    public GameObject rightHand;
-    
+    public GameObject[] arms;
+    public float delayBeforeStart = 5.0f; // Time delay in seconds before starting the camera zoom out
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Start the coroutine to change the camera position after a delay
+        StartCoroutine(StartCameraZoomOutAfterDelay());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             StartCoroutine(CameraPositionChanger());
         }
     }
 
+    IEnumerator StartCameraZoomOutAfterDelay()
+    {
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delayBeforeStart);
+
+        // Start the camera position changer coroutine
+        StartCoroutine(CameraPositionChanger());
+    }
+
     IEnumerator CameraPositionChanger()
     {
-        // Disable XR Rig movement
-        handVisualizer.SetActive(false);
-        leftHand.SetActive(false);
-        rightHand.SetActive(false);
-
+        foreach(GameObject arm in arms){
+            arm.SetActive(false);
+        }
         // Define initial and target positions
         float elapsedTime = 0f;
         float duration = 20.0f; // Example duration in seconds
-        float distanceUp = 10.0f; // Example distance to move up
+        float distanceUp = 5.0f; // Example distance to move up
         float distanceBack = 20.0f; // Example distance to move back
         
         Vector3 initialPosition = xrOrigin.transform.position;
@@ -54,7 +60,5 @@ public class CameraZoomOut : MonoBehaviour
 
             yield return null;
         }
-
-        
     }
 }
