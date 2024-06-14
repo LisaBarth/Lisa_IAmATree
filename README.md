@@ -7,6 +7,10 @@ Visit our [webpage](https://sites.google.com/view/iamatree/start).
 ## Core Concept
 The journey of a tree subjected through three main stages. The first stage represents a happy, healthy, wonderful setting, followed by a disruptive, fearful, anxious state caused by the man-made destruction of nature. The final stage is a metaphysical open-ended question of reflection.
 
+## Builds
+
+You can get the build for Windows [here](https://drive.google.com/drive/folders/1c3dlneZubZxz6BOmrROR5uqVN4EhQVOl?usp=sharing)
+
 ## Goal and Desired UX
 - **First Stage**: Embody a tree. Make the immersant feel at peace, calm, and happy.
 - **Second Stage**: Transition to feeling uncomfortable, helpless, and devastated as the tree experiences destruction.
