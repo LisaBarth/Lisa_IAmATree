@@ -6,8 +6,13 @@ public class ActivateChildren : MonoBehaviour
     public float initialDelay = 5.0f; // Delay before starting to activate children
     public float delay = 0.5f; // Time delay between each activation
 
+    private AudioSource audioSource; // Reference to AudioSource component
+
     void Start()
     {
+        // Get the AudioSource component from this GameObject
+        audioSource = GetComponent<AudioSource>();
+
         StartCoroutine(StartActivationAfterDelay());
     }
 
@@ -25,6 +30,13 @@ public class ActivateChildren : MonoBehaviour
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
+
+            // Check if AudioSource is assigned and play sound
+            if (audioSource != null && audioSource.clip != null)
+            {
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+
             yield return new WaitForSeconds(delay);
         }
     }
