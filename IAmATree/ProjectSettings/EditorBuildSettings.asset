@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/UBISSSampleScene.unity
+    path: Assets/1_IAmATree/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/VRScene3.unity
+    path: Assets/1_IAmATree/Scenes/UbissScenes/VRScene3.unity
     guid: 8377d3bddc979314d9557e75a753e6f0
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f432413bb88c4b440a361aca1c7dafb9, type: 2}
